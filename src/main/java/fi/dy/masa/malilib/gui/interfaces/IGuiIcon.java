@@ -1,18 +1,17 @@
 package fi.dy.masa.malilib.gui.interfaces;
 
-import net.minecraft.util.Identifier;
+import net.minecraft.resources.ResourceLocation;
 
-public interface IGuiIcon
-{
-    int getWidth();
+public interface IGuiIcon {
+	int getWidth();
 
-    int getHeight();
+	int getHeight();
 
-    int getU();
+	int getU();
 
-    int getV();
+	int getV();
 
-    void renderAt(int x, int y, float zLevel, boolean enabled, boolean selected);
+	void renderAt(int x, int y, float zLevel, boolean enabled, boolean selected);
 
-    Identifier getTexture();
+	ResourceLocation getTexture();
 }

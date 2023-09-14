@@ -1,71 +1,64 @@
 package fi.dy.masa.malilib.util;
 
 import javax.annotation.Nullable;
-import net.minecraft.client.MinecraftClient;
-import net.minecraft.server.integrated.IntegratedServer;
-import net.minecraft.server.world.ServerWorld;
-import net.minecraft.util.Identifier;
-import net.minecraft.world.World;
-import net.minecraft.world.chunk.WorldChunk;
 
-public class WorldUtils
-{
-    public static String getDimensionId(World world)
-    {
-        Identifier id = world.getRegistryKey().getValue();
-        return id != null ? id.getNamespace() + "_" + id.getPath() : "__fallback";
-    }
+import net.minecraft.client.Minecraft;
+import net.minecraft.client.server.IntegratedServer;
+import net.minecraft.resources.ResourceLocation;
+import net.minecraft.server.level.ServerLevel;
+import net.minecraft.world.level.Level;
+import net.minecraft.world.level.chunk.LevelChunk;
 
-    /**
-     * Best name. Returns the integrated server world for the current dimension
-     * in single player, otherwise just the client world.
-     * @param mc
-     * @return
-     */
-    @Nullable
-    public static World getBestWorld(MinecraftClient mc)
-    {
-        IntegratedServer server = mc.getServer();
+public class WorldUtils {
+	public static String getDimensionId(Level world) {
+		ResourceLocation id = world.dimension().location();
+		return id.getNamespace() + "_" + id.getPath();
+	}
 
-        if (mc.world != null && server != null)
-        {
-            return server.getWorld(mc.world.getRegistryKey());
-        }
-        else
-        {
-            return mc.world;
-        }
-    }
+	/**
+	 * Best name. Returns the integrated server world for the current dimension
+	 * in single player, otherwise just the client world.
+	 *
+	 * @param mc
+	 * @return
+	 */
+	@Nullable
+	public static Level getBestWorld(Minecraft mc) {
+		IntegratedServer server = mc.getSingleplayerServer();
 
-    /**
-     * Returns the requested chunk from the integrated server, if it's available.
-     * Otherwise returns the client world chunk.
-     * @param chunkX
-     * @param chunkZ
-     * @param mc
-     * @return
-     */
-    @Nullable
-    public static WorldChunk getBestChunk(int chunkX, int chunkZ, MinecraftClient mc)
-    {
-        IntegratedServer server = mc.getServer();
-        WorldChunk chunk = null;
+		if (mc.level != null && server != null) {
+			return server.getLevel(mc.level.dimension());
+		} else {
+			return mc.level;
+		}
+	}
 
-        if (mc.world != null && server != null)
-        {
-            ServerWorld world = server.getWorld(mc.world.getRegistryKey());
+	/**
+	 * Returns the requested chunk from the integrated server, if it's available.
+	 * Otherwise returns the client world chunk.
+	 *
+	 * @param chunkX
+	 * @param chunkZ
+	 * @param mc
+	 * @return
+	 */
+	@Nullable
+	public static LevelChunk getBestChunk(int chunkX, int chunkZ, Minecraft mc) {
+		IntegratedServer server = mc.getSingleplayerServer();
+		LevelChunk chunk = null;
 
-            if (world != null)
-            {
-                chunk = world.getChunk(chunkX, chunkZ);
-            }
-        }
+		if (mc.level != null && server != null) {
+			ServerLevel world = server.getLevel(mc.level.dimension());
 
-        if (chunk != null)
-        {
-            return chunk;
-        }
+			if (world != null) {
+				chunk = world.getChunk(chunkX, chunkZ);
+			}
+		}
 
-        return mc.world != null ? mc.world.getChunk(chunkX, chunkZ) : null;
-    }
+		if (chunk != null) {
+			return chunk;
+		}
+
+		return mc.level != null ? mc.level.getChunk(chunkX, chunkZ) : null;
+	}
 }

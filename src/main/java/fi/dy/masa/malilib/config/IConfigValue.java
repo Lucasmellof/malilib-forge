@@ -1,5 +1,4 @@
 package fi.dy.masa.malilib.config;
 
-public interface IConfigValue extends IConfigBase, IConfigResettable, IStringRepresentable
-{
+public interface IConfigValue extends IConfigBase, IConfigResettable, IStringRepresentable {
 }

@@ -1,21 +1,18 @@
 package fi.dy.masa.malilib.util;
 
-import net.minecraft.client.MinecraftClient;
-import net.minecraft.client.util.Window;
+import com.mojang.blaze3d.platform.Window;
+import net.minecraft.client.Minecraft;
 
-public class InputUtils
-{
-    public static int getMouseX()
-    {
-        MinecraftClient mc = MinecraftClient.getInstance();
-        Window window = mc.getWindow();
-        return (int) (mc.mouse.getX() * (double) window.getScaledWidth() / (double) window.getWidth());
-    }
+public class InputUtils {
+	public static int getMouseX() {
+		Minecraft mc = Minecraft.getInstance();
+		Window window = mc.getWindow();
+		return (int) (mc.mouseHandler.xpos() * (double) window.getGuiScaledWidth() / (double) window.getScreenWidth());
+	}
 
-    public static int getMouseY()
-    {
-        MinecraftClient mc = MinecraftClient.getInstance();
-        Window window = mc.getWindow();
-        return (int) (mc.mouse.getY() * (double) window.getScaledHeight() / (double) window.getHeight());
-    }
+	public static int getMouseY() {
+		Minecraft mc = Minecraft.getInstance();
+		Window window = mc.getWindow();
+		return (int) (mc.mouseHandler.ypos() * (double) window.getGuiScaledHeight() / (double) window.getScreenHeight());
+	}
 }

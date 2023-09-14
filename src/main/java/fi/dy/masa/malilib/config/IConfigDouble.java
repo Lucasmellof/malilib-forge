@@ -1,14 +1,13 @@
 package fi.dy.masa.malilib.config;
 
-public interface IConfigDouble extends IConfigValue, IConfigSlider
-{
-    double getDoubleValue();
+public interface IConfigDouble extends IConfigValue, IConfigSlider {
+	double getDoubleValue();
 
-    double getDefaultDoubleValue();
+	double getDefaultDoubleValue();
 
-    void setDoubleValue(double value);
+	void setDoubleValue(double value);
 
-    double getMinDoubleValue();
+	double getMinDoubleValue();
 
-    double getMaxDoubleValue();
+	double getMaxDoubleValue();
 }

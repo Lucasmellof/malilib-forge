@@ -1,8 +1,7 @@
 package fi.dy.masa.malilib.interfaces;
 
-public interface IConfirmationListener
-{
-    boolean onActionConfirmed();
+public interface IConfirmationListener {
+	boolean onActionConfirmed();
 
-    boolean onActionCancelled();
+	boolean onActionCancelled();
 }

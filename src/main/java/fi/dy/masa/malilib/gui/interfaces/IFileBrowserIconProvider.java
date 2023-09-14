@@ -3,18 +3,17 @@ package fi.dy.masa.malilib.gui.interfaces;
 import java.io.File;
 import javax.annotation.Nullable;
 
-public interface IFileBrowserIconProvider
-{
-    IGuiIcon getIconRoot();
+public interface IFileBrowserIconProvider {
+	IGuiIcon getIconRoot();
 
-    IGuiIcon getIconUp();
+	IGuiIcon getIconUp();
 
-    IGuiIcon getIconCreateDirectory();
+	IGuiIcon getIconCreateDirectory();
 
-    IGuiIcon getIconSearch();
+	IGuiIcon getIconSearch();
 
-    IGuiIcon getIconDirectory();
+	IGuiIcon getIconDirectory();
 
-    @Nullable
-    IGuiIcon getIconForFile(File file);
+	@Nullable
+	IGuiIcon getIconForFile(File file);
 }

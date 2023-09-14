@@ -1,8 +1,7 @@
 package fi.dy.masa.malilib.interfaces;
 
-import net.minecraft.client.MinecraftClient;
+import net.minecraft.client.Minecraft;
 
-public interface IClientTickHandler
-{
-    void onClientTick(MinecraftClient mc);
+public interface IClientTickHandler {
+	void onClientTick(Minecraft mc);
 }

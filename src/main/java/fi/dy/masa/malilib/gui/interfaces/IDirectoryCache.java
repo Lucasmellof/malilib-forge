@@ -3,10 +3,9 @@ package fi.dy.masa.malilib.gui.interfaces;
 import java.io.File;
 import javax.annotation.Nullable;
 
-public interface IDirectoryCache
-{
-    @Nullable
-    File getCurrentDirectoryForContext(String context);
+public interface IDirectoryCache {
+	@Nullable
+	File getCurrentDirectoryForContext(String context);
 
-    void setCurrentDirectoryForContext(String context, File dir);
+	void setCurrentDirectoryForContext(String context, File dir);
 }

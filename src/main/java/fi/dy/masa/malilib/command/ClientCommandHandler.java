@@ -2,17 +2,17 @@ package fi.dy.masa.malilib.command;
 
 public class ClientCommandHandler// extends CommandHandler
 {
-    public static final ClientCommandHandler INSTANCE = new ClientCommandHandler();
+	public static final ClientCommandHandler INSTANCE = new ClientCommandHandler();
 
-    public String[] latestAutoComplete = null;
+	public String[] latestAutoComplete = null;
 
-    /**
-     * Attempt to execute a command. This method should return the number of times that the command was executed. If the
-     * command does not exist or if the player does not have permission, 0 will be returned. A number greater than 1 can
-     * be returned if a player selector is used.
-     * 
-     * @return 1 if successfully executed, -1 if no permission or wrong usage, 0 if it doesn't exist
-     */
+	/**
+	 * Attempt to execute a command. This method should return the number of times that the command was executed. If the
+	 * command does not exist or if the player does not have permission, 0 will be returned. A number greater than 1 can
+	 * be returned if a player selector is used.
+	 *
+	 * @return 1 if successfully executed, -1 if no permission or wrong usage, 0 if it doesn't exist
+	 */
     /*
     @Override
     public int executeCommand(ICommandSender sender, String message)

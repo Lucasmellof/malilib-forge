@@ -7,92 +7,72 @@ import fi.dy.masa.malilib.config.ConfigType;
 import fi.dy.masa.malilib.util.Color4f;
 import fi.dy.masa.malilib.util.StringUtils;
 
-public class ConfigColor extends ConfigInteger
-{
-    private Color4f color;
+public class ConfigColor extends ConfigInteger {
+	private Color4f color;
 
-    public ConfigColor(String name, String defaultValue, String comment)
-    {
-        super(name, StringUtils.getColor(defaultValue, 0), comment);
+	public ConfigColor(String name, String defaultValue, String comment) {
+		super(name, StringUtils.getColor(defaultValue, 0), comment);
 
-        this.color = Color4f.fromColor(this.getIntegerValue());
-    }
+		this.color = Color4f.fromColor(this.getIntegerValue());
+	}
 
-    @Override
-    public ConfigType getType()
-    {
-        return ConfigType.COLOR;
-    }
+	@Override
+	public ConfigType getType() {
+		return ConfigType.COLOR;
+	}
 
-    public Color4f getColor()
-    {
-        return this.color;
-    }
+	public Color4f getColor() {
+		return this.color;
+	}
 
-    @Override
-    public String getStringValue()
-    {
-        return String.format("#%08X", this.getIntegerValue());
-    }
+	@Override
+	public String getStringValue() {
+		return String.format("#%08X", this.getIntegerValue());
+	}
 
-    @Override
-    public String getDefaultStringValue()
-    {
-        return String.format("#%08X", this.getDefaultIntegerValue());
-    }
+	@Override
+	public String getDefaultStringValue() {
+		return String.format("#%08X", this.getDefaultIntegerValue());
+	}
 
-    @Override
-    public void setValueFromString(String value)
-    {
-        this.setIntegerValue(StringUtils.getColor(value, 0));
-    }
+	@Override
+	public void setValueFromString(String value) {
+		this.setIntegerValue(StringUtils.getColor(value, 0));
+	}
 
-    @Override
-    public void setIntegerValue(int value)
-    {
-        this.color = Color4f.fromColor(value);
+	@Override
+	public void setIntegerValue(int value) {
+		this.color = Color4f.fromColor(value);
 
-        super.setIntegerValue(value); // This also calls the callback, if set
-    }
+		super.setIntegerValue(value); // This also calls the callback, if set
+	}
 
-    @Override
-    public boolean isModified(String newValue)
-    {
-        try
-        {
-            return StringUtils.getColor(newValue, 0) != this.getDefaultIntegerValue();
-        }
-        catch (Exception e)
-        {
-        }
+	@Override
+	public boolean isModified(String newValue) {
+		try {
+			return StringUtils.getColor(newValue, 0) != this.getDefaultIntegerValue();
+		} catch (Exception ignored) {
+		}
 
-        return true;
-    }
+		return true;
+	}
 
-    @Override
-    public void setValueFromJsonElement(JsonElement element)
-    {
-        try
-        {
-            if (element.isJsonPrimitive())
-            {
-                this.value = this.getClampedValue(StringUtils.getColor(element.getAsString(), 0));
-                this.color = Color4f.fromColor(this.value);
-            }
-            else
-            {
-                MaLiLib.logger.warn("Failed to set config value for '{}' from the JSON element '{}'", this.getName(), element);
-            }
-        }
-        catch (Exception e)
-        {
-            MaLiLib.logger.warn("Failed to set config value for '{}' from the JSON element '{}'", this.getName(), element, e);
-        }
-    }
+	@Override
+	public void setValueFromJsonElement(JsonElement element) {
+		try {
+			if (element.isJsonPrimitive()) {
+				this.value = this.getClampedValue(StringUtils.getColor(element.getAsString(), 0));
+				this.color = Color4f.fromColor(this.value);
+			} else {
+				MaLiLib.logger.warn("Failed to set config value for '{}' from the JSON element '{}'", this.getName(), element);
+			}
+		} catch (Exception e) {
+			MaLiLib.logger.warn("Failed to set config value for '{}' from the JSON element '{}'", this.getName(), element, e);
+		}
+	}
 
-    @Override
-    public JsonElement getAsJsonElement()
-    {
-        return new JsonPrimitive(this.getStringValue());
-    }
+	@Override
+	public JsonElement getAsJsonElement() {
+		return new JsonPrimitive(this.getStringValue());
+	}
 }

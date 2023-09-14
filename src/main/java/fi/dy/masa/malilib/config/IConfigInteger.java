@@ -1,14 +1,13 @@
 package fi.dy.masa.malilib.config;
 
-public interface IConfigInteger extends IConfigValue, IConfigSlider
-{
-    int getIntegerValue();
+public interface IConfigInteger extends IConfigValue, IConfigSlider {
+	int getIntegerValue();
 
-    int getDefaultIntegerValue();
+	int getDefaultIntegerValue();
 
-    void setIntegerValue(int value);
+	void setIntegerValue(int value);
 
-    int getMinIntegerValue();
+	int getMinIntegerValue();
 
-    int getMaxIntegerValue();
+	int getMaxIntegerValue();
 }

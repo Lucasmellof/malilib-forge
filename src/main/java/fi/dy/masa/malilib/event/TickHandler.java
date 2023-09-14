@@ -2,39 +2,33 @@ package fi.dy.masa.malilib.event;
 
 import java.util.ArrayList;
 import java.util.List;
-import net.minecraft.client.MinecraftClient;
+
+import net.minecraft.client.Minecraft;
 import fi.dy.masa.malilib.interfaces.IClientTickHandler;
 
-public class TickHandler
-{
-    private static final TickHandler INSTANCE = new TickHandler();
+public class TickHandler {
+	private static final TickHandler INSTANCE = new TickHandler();
 
-    private final List<IClientTickHandler> clientTickHandlers = new ArrayList<>();
+	private final List<IClientTickHandler> clientTickHandlers = new ArrayList<>();
 
-    public static TickHandler getInstance()
-    {
-        return INSTANCE;
-    }
+	public static TickHandler getInstance() {
+		return INSTANCE;
+	}
 
-    public void registerClientTickHandler(IClientTickHandler handler)
-    {
-        if (this.clientTickHandlers.contains(handler) == false)
-        {
-            this.clientTickHandlers.add(handler);
-        }
-    }
+	public void registerClientTickHandler(IClientTickHandler handler) {
+		if (!this.clientTickHandlers.contains(handler)) {
+			this.clientTickHandlers.add(handler);
+		}
+	}
 
-    /**
-     * NOT PUBLIC API - DO NOT CALL
-     */
-    public void onClientTick(MinecraftClient mc)
-    {
-        if (this.clientTickHandlers.isEmpty() == false)
-        {
-            for (IClientTickHandler handler : this.clientTickHandlers)
-            {
-                handler.onClientTick(mc);
-            }
-        }
-    }
+	/**
+	 * NOT PUBLIC API - DO NOT CALL
+	 */
+	public void onClientTick(Minecraft mc) {
+		if (!this.clientTickHandlers.isEmpty()) {
+			for (IClientTickHandler handler : this.clientTickHandlers) {
+				handler.onClientTick(mc);
+			}
+		}
+	}
 }

@@ -1,9 +1,9 @@
 package fi.dy.masa.malilib.gui.widgets;
 
 import java.io.File;
-import java.util.Arrays;
+import java.util.List;
 import javax.annotation.Nullable;
-import net.minecraft.client.util.math.MatrixStack;
+import com.mojang.blaze3d.vertex.PoseStack;
 import fi.dy.masa.malilib.gui.GuiBase;
 import fi.dy.masa.malilib.gui.GuiTextInputFeedback;
 import fi.dy.masa.malilib.gui.LeftRight;
@@ -44,7 +44,7 @@ public class WidgetDirectoryNavigation extends WidgetSearchBar
     @Override
     protected boolean onMouseClickedImpl(int mouseX, int mouseY, int mouseButton)
     {
-        if (this.searchOpen == false)
+        if (!this.searchOpen)
         {
             WidgetIcon hoveredIcon = this.getHoveredIcon(mouseX, mouseY);
 
@@ -74,7 +74,7 @@ public class WidgetDirectoryNavigation extends WidgetSearchBar
     @Nullable
     protected WidgetIcon getHoveredIcon(int mouseX, int mouseY)
     {
-        if (this.searchOpen == false)
+        if (!this.searchOpen)
         {
             if (this.iconRoot.isMouseOver(mouseX, mouseY))
             {
@@ -94,11 +94,11 @@ public class WidgetDirectoryNavigation extends WidgetSearchBar
     }
 
     @Override
-    public void render(int mouseX, int mouseY, boolean selected, MatrixStack matrixStack)
+    public void render(int mouseX, int mouseY, boolean selected, PoseStack matrixStack)
     {
         super.render(mouseX, mouseY, selected, matrixStack);
 
-        if (this.searchOpen == false)
+        if (!this.searchOpen)
         {
             WidgetIcon hoveredIcon = this.getHoveredIcon(mouseX, mouseY);
 
@@ -119,25 +119,25 @@ public class WidgetDirectoryNavigation extends WidgetSearchBar
     }
 
     @Override
-    public void postRenderHovered(int mouseX, int mouseY, boolean selected, MatrixStack matrixStack)
+    public void postRenderHovered(int mouseX, int mouseY, boolean selected, PoseStack matrixStack)
     {
         super.postRenderHovered(mouseX, mouseY, selected, matrixStack);
 
-        if (this.searchOpen == false)
+        if (!this.searchOpen)
         {
             WidgetIcon hoveredIcon = this.getHoveredIcon(mouseX, mouseY);
 
             if (hoveredIcon == this.iconRoot)
             {
-                RenderUtils.drawHoverText(mouseX, mouseY, Arrays.asList(StringUtils.translate("malilib.gui.button.hover.directory_widget.root")), matrixStack);
+                RenderUtils.drawHoverText(mouseX, mouseY, List.of(StringUtils.translate("malilib.gui.button.hover.directory_widget.root")), matrixStack);
             }
             else if (hoveredIcon == this.iconUp)
             {
-                RenderUtils.drawHoverText(mouseX, mouseY, Arrays.asList(StringUtils.translate("malilib.gui.button.hover.directory_widget.up")), matrixStack);
+                RenderUtils.drawHoverText(mouseX, mouseY, List.of(StringUtils.translate("malilib.gui.button.hover.directory_widget.up")), matrixStack);
             }
             else if (hoveredIcon == this.iconCreateDir)
             {
-                RenderUtils.drawHoverText(mouseX, mouseY, Arrays.asList(StringUtils.translate("malilib.gui.button.hover.directory_widget.create_directory")), matrixStack);
+                RenderUtils.drawHoverText(mouseX, mouseY, List.of(StringUtils.translate("malilib.gui.button.hover.directory_widget.create_directory")), matrixStack);
             }
 
             RenderUtils.disableDiffuseLighting();

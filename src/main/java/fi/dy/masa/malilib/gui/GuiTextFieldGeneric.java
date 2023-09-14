@@ -1,124 +1,104 @@
 package fi.dy.masa.malilib.gui;
 
-import net.minecraft.client.MinecraftClient;
-import net.minecraft.client.font.TextRenderer;
-import net.minecraft.client.gui.widget.TextFieldWidget;
-import net.minecraft.client.util.math.MatrixStack;
-import net.minecraft.screen.ScreenTexts;
+import com.mojang.blaze3d.vertex.PoseStack;
+import net.minecraft.client.Minecraft;
+import net.minecraft.client.gui.Font;
+import net.minecraft.client.gui.components.EditBox;
+import net.minecraft.network.chat.CommonComponents;
 
-public class GuiTextFieldGeneric extends TextFieldWidget
-{
-    protected int x;
-    protected int y;
-    protected int width;
-    protected int height;
+public class GuiTextFieldGeneric extends EditBox {
+	protected int x;
+	protected int y;
+	protected int width;
+	protected int height;
 
-    public GuiTextFieldGeneric(int x, int y, int width, int height, TextRenderer textRenderer)
-    {
-        super(textRenderer, x, y, width, height, ScreenTexts.EMPTY);
+	public GuiTextFieldGeneric(int x, int y, int width, int height, Font textRenderer) {
+		super(textRenderer, x, y, width, height, CommonComponents.EMPTY);
 
-        this.x = x;
-        this.y = y;
-        this.width = width;
-        this.height = height;
+		this.x = x;
+		this.y = y;
+		this.width = width;
+		this.height = height;
 
-        this.setMaxLength(256);
-    }
+		this.setMaxLength(256);
+	}
 
-    @Override
-    public boolean mouseClicked(double mouseX, double mouseY, int mouseButton)
-    {
-        boolean ret = super.mouseClicked(mouseX, mouseY, mouseButton);
+	@Override
+	public boolean mouseClicked(double mouseX, double mouseY, int mouseButton) {
+		boolean ret = super.mouseClicked(mouseX, mouseY, mouseButton);
 
-        if (mouseButton == 1 && this.isMouseOver((int) mouseX, (int) mouseY))
-        {
-            this.setText("");
-            this.setFocused(true);
-            return true;
-        }
+		if (mouseButton == 1 && this.isMouseOver((int) mouseX, (int) mouseY)) {
+			this.setValue("");
+			this.setFocused(true);
+			return true;
+		}
 
-        return ret;
-    }
+		return ret;
+	}
 
-    public int getX()
-    {
-        return this.x;
-    }
+	public int getX() {
+		return this.x;
+	}
 
-    public int getY()
-    {
-        return this.y;
-    }
+	public int getY() {
+		return this.y;
+	}
 
-    public void setX(int x)
-    {
-        this.x = x;
-    }
+	public void setX(int x) {
+		this.x = x;
+	}
 
-    public void setY(int y)
-    {
-        this.y = y;
-    }
+	public void setY(int y) {
+		this.y = y;
+	}
 
-    public boolean isMouseOver(int mouseX, int mouseY)
-    {
-        return mouseX >= this.x && mouseX < this.x + this.width &&
-               mouseY >= this.y && mouseY < this.y + this.height;
-    }
+	public boolean isMouseOver(int mouseX, int mouseY) {
+		return mouseX >= this.x && mouseX < this.x + this.width &&
+				       mouseY >= this.y && mouseY < this.y + this.height;
+	}
 
-    @Override
-    public void setFocused(boolean isFocusedIn)
-    {
-        boolean wasFocused = this.isFocused();
-        super.setFocused(isFocusedIn);
+	@Override
+	public void setFocused(boolean isFocusedIn) {
+		boolean wasFocused = this.isFocused();
+		super.setFocused(isFocusedIn);
 
-        if (this.isFocused() != wasFocused)
-        {
-            MinecraftClient.getInstance().keyboard.setRepeatEvents(this.isFocused());
-        }
-    }
+		if (this.isFocused() != wasFocused) {
+			Minecraft.getInstance().keyboardHandler.setSendRepeatsToGui(this.isFocused());
+		}
+	}
 
-    public int getCursorPosition()
-    {
-        return this.getCursor();
-    }
+	public int getCursorPosition() {
+		return this.getCursorPosition();
+	}
 
-    public void setCursorPosition(int pos)
-    {
-        this.setCursor(pos);
-    }
+	public void setCursorPosition(int pos) {
+		this.moveCursorTo(pos);
+	}
 
-    public void setCursorPositionZero()
-    {
-        this.setCursorToStart();
-    }
+	public void setCursorPositionZero() {
+		this.moveCursorToStart();
+	}
 
-    public void setCursorPositionEnd()
-    {
-        this.setCursorToEnd();
-    }
+	public void setCursorPositionEnd() {
+		this.moveCursorToEnd();
+	}
 
-    public GuiTextFieldGeneric setZLevel(int zLevel)
-    {
-        this.setZOffset(zLevel);
-        return this;
-    }
+	public GuiTextFieldGeneric setZLevel(int zLevel) {
+		this.setBlitOffset(zLevel);
+		return this;
+	}
 
-    @Override
-    public void render(MatrixStack matrixStack, int mouseX, int mouseY, float partialTicks)
-    {
-        if (this.getZOffset() != 0)
-        {
-            matrixStack.push();
-            matrixStack.translate(0, 0, this.getZOffset());
+	@Override
+	public void render(PoseStack matrixStack, int mouseX, int mouseY, float partialTicks) {
+		if (this.getBlitOffset() != 0) {
+			matrixStack.pushPose();
+			matrixStack.translate(0, 0, this.getBlitOffset());
 
-            super.render(matrixStack, mouseX, mouseY, partialTicks);
+			super.render(matrixStack, mouseX, mouseY, partialTicks);
 
-            matrixStack.pop();
-        }
-        else
-        {
-            super.render(matrixStack, mouseX, mouseY, partialTicks);
-        }
-    }
+			matrixStack.popPose();
+		} else {
+			super.render(matrixStack, mouseX, mouseY, partialTicks);
+		}
+	}
 }

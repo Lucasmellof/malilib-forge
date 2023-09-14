@@ -1,7 +1,7 @@
 package fi.dy.masa.malilib.gui.widgets;
 
 import net.minecraft.SharedConstants;
-import net.minecraft.client.util.math.MatrixStack;
+import com.mojang.blaze3d.vertex.PoseStack;
 import fi.dy.masa.malilib.gui.GuiBase;
 import fi.dy.masa.malilib.gui.GuiTextFieldGeneric;
 import fi.dy.masa.malilib.gui.LeftRight;
@@ -9,125 +9,99 @@ import fi.dy.masa.malilib.gui.interfaces.IGuiIcon;
 import fi.dy.masa.malilib.render.RenderUtils;
 import fi.dy.masa.malilib.util.KeyCodes;
 
-public class WidgetSearchBar extends WidgetBase
-{
-    protected final WidgetIcon iconSearch;
-    protected final LeftRight iconAlignment;
-    protected final GuiTextFieldGeneric searchBox;
-    protected boolean searchOpen;
+public class WidgetSearchBar extends WidgetBase {
+	protected final WidgetIcon iconSearch;
+	protected final LeftRight iconAlignment;
+	protected final GuiTextFieldGeneric searchBox;
+	protected boolean searchOpen;
 
-    public WidgetSearchBar(int x, int y, int width, int height,
-            int searchBarOffsetX, IGuiIcon iconSearch, LeftRight iconAlignment)
-    {
-        super(x, y, width, height);
+	public WidgetSearchBar(int x, int y, int width, int height,
+	                       int searchBarOffsetX, IGuiIcon iconSearch, LeftRight iconAlignment) {
+		super(x, y, width, height);
 
-        int iw = iconSearch.getWidth();
-        int ix = iconAlignment == LeftRight.RIGHT ? x + width - iw - 1 : x + 2;
-        int tx = iconAlignment == LeftRight.RIGHT ? x - searchBarOffsetX + 1 : x + iw + 6 + searchBarOffsetX;
-        this.iconSearch = new WidgetIcon(ix, y + 1, iconSearch);
-        this.iconAlignment = iconAlignment;
-        this.searchBox = new GuiTextFieldGeneric(tx, y, width - iw - 7 - Math.abs(searchBarOffsetX), height, this.textRenderer);
-        this.searchBox.setZLevel(this.zLevel);
-    }
+		int iw = iconSearch.getWidth();
+		int ix = iconAlignment == LeftRight.RIGHT ? x + width - iw - 1 : x + 2;
+		int tx = iconAlignment == LeftRight.RIGHT ? x - searchBarOffsetX + 1 : x + iw + 6 + searchBarOffsetX;
+		this.iconSearch = new WidgetIcon(ix, y + 1, iconSearch);
+		this.iconAlignment = iconAlignment;
+		this.searchBox = new GuiTextFieldGeneric(tx, y, width - iw - 7 - Math.abs(searchBarOffsetX), height, this.textRenderer);
+		this.searchBox.setZLevel(this.zLevel);
+	}
 
-    public String getFilter()
-    {
-        return this.searchOpen ? this.searchBox.getText().toLowerCase() : "";
-    }
+	public String getFilter() {
+		return this.searchOpen ? this.searchBox.getValue().toLowerCase() : "";
+	}
 
-    public boolean hasFilter()
-    {
-        return this.searchOpen && this.searchBox.getText().isEmpty() == false;
-    }
+	public boolean hasFilter() {
+		return this.searchOpen && !this.searchBox.getValue().isEmpty();
+	}
 
-    public boolean isSearchOpen()
-    {
-        return this.searchOpen;
-    }
+	public boolean isSearchOpen() {
+		return this.searchOpen;
+	}
 
-    public void setSearchOpen(boolean isOpen)
-    {
-        this.searchOpen = isOpen;
+	public void setSearchOpen(boolean isOpen) {
+		this.searchOpen = isOpen;
 
-        if (this.searchOpen)
-        {
-            this.searchBox.setFocused(true);
-        }
-    }
+		if (this.searchOpen) {
+			this.searchBox.setFocused(true);
+		}
+	}
 
-    @Override
-    protected boolean onMouseClickedImpl(int mouseX, int mouseY, int mouseButton)
-    {
-        if (this.searchOpen && this.searchBox.mouseClicked(mouseX, mouseY, mouseButton))
-        {
-            return true;
-        }
-        else if (this.iconSearch.isMouseOver(mouseX, mouseY))
-        {
-            this.setSearchOpen(! this.searchOpen);
-            return true;
-        }
+	@Override
+	protected boolean onMouseClickedImpl(int mouseX, int mouseY, int mouseButton) {
+		if (this.searchOpen && this.searchBox.mouseClicked(mouseX, mouseY, mouseButton)) {
+			return true;
+		} else if (this.iconSearch.isMouseOver(mouseX, mouseY)) {
+			this.setSearchOpen(!this.searchOpen);
+			return true;
+		}
 
-        return false;
-    }
+		return false;
+	}
 
-    @Override
-    protected boolean onKeyTypedImpl(int keyCode, int scanCode, int modifiers)
-    {
-        if (this.searchOpen)
-        {
-            if (this.searchBox.keyPressed(keyCode, scanCode, modifiers))
-            {
-                return true;
-            }
-            else if (keyCode == KeyCodes.KEY_ESCAPE)
-            {
-                if (GuiBase.isShiftDown())
-                {
-                    this.mc.currentScreen.close();
-                }
+	@Override
+	protected boolean onKeyTypedImpl(int keyCode, int scanCode, int modifiers) {
+		if (this.searchOpen) {
+			if (this.searchBox.keyPressed(keyCode, scanCode, modifiers)) {
+				return true;
+			} else if (keyCode == KeyCodes.KEY_ESCAPE) {
+				if (GuiBase.isShiftDown()) {
+					this.mc.screen.onClose();
+				}
 
-                this.searchOpen = false;
-                this.searchBox.setFocused(false);
-                return true;
-            }
-        }
+				this.searchOpen = false;
+				this.searchBox.setFocused(false);
+				return true;
+			}
+		}
 
-        return false;
-    }
+		return false;
+	}
 
-    @Override
-    protected boolean onCharTypedImpl(char charIn, int modifiers)
-    {
-        if (this.searchOpen)
-        {
-            if (this.searchBox.charTyped(charIn, modifiers))
-            {
-                return true;
-            }
-        }
-        else if (SharedConstants.isValidChar(charIn))
-        {
-            this.searchOpen = true;
-            this.searchBox.setFocused(true);
-            this.searchBox.setText("");
-            this.searchBox.charTyped(charIn, modifiers);
+	@Override
+	protected boolean onCharTypedImpl(char charIn, int modifiers) {
+		if (this.searchOpen) {
+			return this.searchBox.charTyped(charIn, modifiers);
+		} else if (SharedConstants.isAllowedChatCharacter(charIn)) {
+			this.searchOpen = true;
+			this.searchBox.setFocused(true);
+			this.searchBox.setValue("");
+			this.searchBox.charTyped(charIn, modifiers);
 
-            return true;
-        }
+			return true;
+		}
 
-        return false;
-    }
+		return false;
+	}
 
-    @Override
-    public void render(int mouseX, int mouseY, boolean selected, MatrixStack matrixStack)
-    {
-        RenderUtils.color(1f, 1f, 1f, 1f);
-        this.iconSearch.render(false, this.iconSearch.isMouseOver(mouseX, mouseY));
+	@Override
+	public void render(int mouseX, int mouseY, boolean selected, PoseStack matrixStack) {
+		RenderUtils.color(1f, 1f, 1f, 1f);
+		this.iconSearch.render(false, this.iconSearch.isMouseOver(mouseX, mouseY));
 
-        if (this.searchOpen)
-        {
-            this.searchBox.render(matrixStack, mouseX, mouseY, 0);
-        }
-    }
+		if (this.searchOpen) {
+			this.searchBox.render(matrixStack, mouseX, mouseY, 0);
+		}
+	}
 }

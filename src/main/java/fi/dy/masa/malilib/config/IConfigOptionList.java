@@ -1,10 +1,9 @@
 package fi.dy.masa.malilib.config;
 
-public interface IConfigOptionList
-{
-    IConfigOptionListEntry getOptionListValue();
+public interface IConfigOptionList {
+	IConfigOptionListEntry getOptionListValue();
 
-    IConfigOptionListEntry getDefaultOptionListValue();
+	IConfigOptionListEntry getDefaultOptionListValue();
 
-    void setOptionListValue(IConfigOptionListEntry value);
+	void setOptionListValue(IConfigOptionListEntry value);
 }
