@@ -29,7 +29,7 @@ public abstract class MixinClientPlayNetworkHandler
         // Need to grab the old world reference at the start of the method,
         // because the next injection point is right after the world has been assigned,
         // since we need the new world reference for the callback.
-        this.worldBefore = this.world;
+        this.worldBefore = this.level;
     }
 
     @Inject(method = "handleLogin", at = @At(value = "INVOKE",
