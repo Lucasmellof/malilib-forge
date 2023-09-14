@@ -13,6 +13,7 @@
 		"MixinScreen",
 		"MixinWorldRenderer"
 	],
+	"refmap": "malilib.refmap.json",
 	"injectors": {
 		"defaultRequire": 1
 	}
