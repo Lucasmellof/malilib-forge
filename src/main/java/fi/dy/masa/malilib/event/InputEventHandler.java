@@ -171,36 +171,35 @@ public class InputEventHandler implements IKeybindManager, IInputManager {
 	/**
 	 * NOT PUBLIC API - DO NOT CALL
 	 */
-	public boolean onMouseScroll(final int mouseX, final int mouseY, final double xOffset, final double yOffset) {
-		boolean discrete = this.mc.options.discreteMouseScroll().get();
-		double sensitivity = this.mc.options.mouseWheelSensitivity().get();
-		double amount = (discrete ? Math.signum(yOffset) : yOffset) * sensitivity;
+	public boolean onMouseScroll(final int mouseX, final int mouseY, final double amount) {
+//		boolean discrete = this.mc.options.discreteMouseScroll().get();
+//		double sensitivity = this.mc.options.mouseWheelSensitivity().get();
+//
+//		if (MaLiLibConfigs.Debug.MOUSE_SCROLL_DEBUG.getBooleanValue()) {
+//			int time = (int) (System.currentTimeMillis() & 0xFFFF);
+//			int tick = this.mc.level != null ? (int) (this.mc.level.getGameTime() & 0xFFFF) : 0;
+//			String timeStr = String.format("time: %04X, tick: %04X", time, tick);
+//			MaLiLib.logger.info("amount: {}, discrete: {}, sensitivity: {}, amount: {}",
+//					timeStr, amount, discrete, sensitivity, amount);
+//		}
 
-		if (MaLiLibConfigs.Debug.MOUSE_SCROLL_DEBUG.getBooleanValue()) {
-			int time = (int) (System.currentTimeMillis() & 0xFFFF);
-			int tick = this.mc.level != null ? (int) (this.mc.level.getGameTime() & 0xFFFF) : 0;
-			String timeStr = String.format("time: %04X, tick: %04X", time, tick);
-			MaLiLib.logger.info("{} - xOffset: {}, yOffset: {}, discrete: {}, sensitivity: {}, amount: {}",
-					timeStr, xOffset, yOffset, discrete, sensitivity, amount);
-		}
+		if (amount != 0 /*&& !this.mouseHandlers.isEmpty()*/) {
+//			if (this.mouseWheelDeltaSum != 0.0 && Math.signum(amount) != Math.signum(this.mouseWheelDeltaSum)) {
+//				this.mouseWheelDeltaSum = 0.0;
+//			}
 
-		if (amount != 0 && !this.mouseHandlers.isEmpty()) {
-			if (this.mouseWheelDeltaSum != 0.0 && Math.signum(amount) != Math.signum(this.mouseWheelDeltaSum)) {
-				this.mouseWheelDeltaSum = 0.0;
-			}
+//			this.mouseWheelDeltaSum += amount;
+//			amount = (int) this.mouseWheelDeltaSum;
 
-			this.mouseWheelDeltaSum += amount;
-			amount = (int) this.mouseWheelDeltaSum;
-
-			if (amount != 0.0) {
-				this.mouseWheelDeltaSum -= amount;
+//			if (amount != 0.0) {
+//				this.mouseWheelDeltaSum -= amount;
 
 				for (IMouseInputHandler handler : this.mouseHandlers) {
 					if (handler.onMouseScroll(mouseX, mouseY, amount)) {
 						this.printInputCancellationDebugMessage(handler);
 						return true;
 					}
-				}
+//				}
 			}
 		}
 

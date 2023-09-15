@@ -16,6 +16,8 @@ plugins {
 	id 'maven-publish'
 }
 
+apply plugin: 'org.spongepowered.mixin'
+
 java {
 	toolchain.languageVersion = JavaLanguageVersion.of(17)
 }
@@ -99,6 +101,7 @@ dependencies {
 //	include(modImplementation(fabricApi.module("fabric-resource-loader-v0", project.fabric_api_version)))
 //
 //	modCompileOnly "com.terraformersmc:modmenu:${project.mod_menu_version}"
+	annotationProcessor("org.spongepowered:mixin:0.8.5:processor")
 }
 
 group = project.group + "." + project.mod_id
@@ -143,7 +146,7 @@ tasks.named('jar', Jar).configure {
 	}
 
 	// This is the preferred method to reobfuscate your jar file
-	finalizedBy 'reobfJar'
+//	finalizedBy 'reobfJar'
 }
 
 tasks.withType(JavaCompile).configureEach {

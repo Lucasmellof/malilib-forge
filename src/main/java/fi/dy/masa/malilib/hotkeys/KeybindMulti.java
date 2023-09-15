@@ -364,16 +364,17 @@ public class KeybindMulti implements IKeybind {
 	 * NOT PUBLIC API - DO NOT CALL FROM MOD CODE!!!
 	 */
 	public static void onKeyInputPre(int keyCode, int scanCode, boolean state) {
+		Integer valObj = Integer.valueOf(keyCode);
 		if (state) {
-			if (!PRESSED_KEYS.contains(keyCode)) {
+			if (!PRESSED_KEYS.contains(valObj)) {
 				Collection<Integer> ignored = MaLiLibConfigs.Generic.IGNORED_KEYS.getKeybind().getKeys();
 
-				if (ignored.isEmpty() || !ignored.contains(keyCode)) {
-					PRESSED_KEYS.add(keyCode);
+				if (ignored.isEmpty() || !ignored.contains(valObj)) {
+					PRESSED_KEYS.add(valObj);
 				}
 			}
 		} else {
-			PRESSED_KEYS.remove(keyCode);
+			PRESSED_KEYS.remove(valObj);
 		}
 
 		if (MaLiLibConfigs.Debug.KEYBIND_DEBUG.getBooleanValue()) {

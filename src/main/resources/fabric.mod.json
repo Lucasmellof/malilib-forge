@@ -28,7 +28,7 @@
 		]
 	},
 	"mixins": [
-		"mixins.malilib.json"
+		"malilib.mixins.json"
 	],
 
 	"depends": {

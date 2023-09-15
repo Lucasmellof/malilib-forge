@@ -25,18 +25,6 @@ public abstract class MixinMinecraftClient {
 	@Unique
 	private ClientLevel malilib_forge$worldBefore;
 
-	@Inject(method = "<init>", at = @At("RETURN"))
-	private void onInitComplete(GameConfig args, CallbackInfo ci) {
-		// Register all mod handlers
-		((InitializationHandler) InitializationHandler.getInstance()).onGameInitDone();
-	}
-
-	@Inject(method = "tick()V", at = @At("RETURN"))
-	private void onPostKeyboardInput(CallbackInfo ci) {
-		KeybindMulti.reCheckPressedKeys();
-		TickHandler.getInstance().onClientTick((Minecraft) (Object) this);
-	}
-
 	@Inject(method = "setLevel", at = @At("HEAD"))
 	private void onLoadWorldPre(@Nullable ClientLevel worldClientIn, CallbackInfo ci) {
 		// Only handle dimension changes/respawns here.

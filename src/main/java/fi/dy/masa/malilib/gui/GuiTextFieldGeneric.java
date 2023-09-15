@@ -71,9 +71,9 @@ public class GuiTextFieldGeneric extends EditBox {
 		return this.getCursorPosition();
 	}
 
-	public void setCursorPosition(int pos) {
-		this.moveCursorTo(pos);
-	}
+//	public void setCursorPosition(int pos) {
+//		this.moveCursorTo(pos);
+//	}
 
 	public void setCursorPositionZero() {
 		this.moveCursorToStart();
